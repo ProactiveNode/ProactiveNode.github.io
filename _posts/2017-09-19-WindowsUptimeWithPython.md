@@ -7,7 +7,7 @@ Whenever I wanted to know the uptime of a Windows machine, I had to navigate to 
 tab. If I wanted to know the uptime for various Windows machines, then I would have to repeat this same process a few times and spend a bit
 of time doing it. I wanted to speed this process up by creating a Python script to get the uptime of a Windows machine. 
 
-The libraries that we used were:
+The libraries that I used were:
    * subprocess
    * datetime
   
