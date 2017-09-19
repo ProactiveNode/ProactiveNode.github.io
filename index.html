@@ -5,3 +5,12 @@ layout: default
 <p>This blog will be focused on a wide range of topics from Networking and Systems Administration to Programming. 
    The main programming language that will be used is Python.
 </p>
+
+<h1 align="center">Posts</h1>
+
+   {% for post in site.posts %}
+<h4>
+<a href="{{ post.url }}">{{ post.title }}</a>
+</h4>
+<p> {{ post.excerpt }} </p>
+{% endfor %}
