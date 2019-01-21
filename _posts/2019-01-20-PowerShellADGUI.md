@@ -8,8 +8,6 @@ To easily create new users with their default groups and permissions, I have des
 
 We have four fields that are required to create an account as shown in Figure 1. The First and Last name fields are self-explanatory. The Job Title field is where you will need to specify what role the new user has. You will need to set a default password that adheres to your organization’s password policy.
 
-
-
 The First Name textbox and Last Name textbox use the same class from System.Windows.Forms as shown below in Figure 2. To place them in the correct area and length, I used System.Drawing.Point and System.Drawing.Size System.Drawing.Point and System.Drawing.Size use the following (horizontal, vertical) Point places where the textbox should be on the window. Size allocates how large the box should be. Once the values have been inputted, you will place the data onto the window by using $Screen.Controls.Add
 
 {% highlight powershell %}
@@ -22,7 +20,7 @@ $lastName = New-Object System.Windows.Forms.TextBox
 $lastName.Location = New-Object System.Drawing.Point($col2,30)
 $lastName.Size = New-Object System.Drawing.Size(100,30)
 $Screen.Controls.Add($lastName)
-{% end highlight %}
+{% endhighlight %}
 <p style="font-size:90%"> Figure 2: Code used to create First Name and Last Name </p>
 
 Once those fields are filled in, the Job Title field must be used. In Figure 3 shown below, I have used a combo box which uses a dropdown to select the appropriate role for the new user. To populate the dropdown menu, I have used a hash table. You will have to enter the appropriate groups you would want to add into the hash table.
@@ -37,7 +35,7 @@ $selectTitle.items.addRange($titleList.keys)
 $selectTitle.DropDownStyle = [System.Windows.Forms.ComboBoxStyle]::DropDownList
 
 $Screen.Controls.Add($selectTitle)
-{% end highlight %}
+{% endhighlight %}
 <p style="font-size:90%"> Figure 3: Job Title Field </p>
 
 
@@ -49,12 +47,12 @@ $passwordTextBox.Location = New-Object System.Drawing.Point(30,170)
 $passwordTextBox.Size = New-Object System.Drawing.Size(80,60)
 $passwordTextBox.PasswordChar = "*"
 $Screen.Controls.Add($passwordTextBox)
-{% end highlight %}
+{% endhighlight %}
 <p style="font-size:90%"> Figure 4: Default password MaskedTextBox </p>
 
 {% highlight powershell %}
 $defaultPassword = $passwordTextBox.Text | ConvertTo-SecureString -AsPlainText -
-{% end highlight %}
+{% endhighlight %}
 <p style="font-size:90%"> Figure 5: Default password MaskedTextBox </p>
 
 After all the fields have been populated, you will have to click the Create Users button to create them. It first goes through a few error checks to see if the fields have been populated. If they have been populated with data, then it will proceed to create the user. In Figure 6, three variables are being used to create the new user which is using the Powershell command New-ADUser. It will be up to the person who uses this tool to create the appropriate emails address. I am following the format of putting the first letter of the first name following a period and their last name E.g John Doe = J.Doe@ @magicTestDomain.test It will also be up to the user on what other fields they would want to add into the New-ADUser command such as their Phone Number, Manager, Address and more. In Figure 7, the $addAccountant and $addDev are used to put the user in the appropriate groups that were provided. Once they are added and everything was successful, the Textboxes are cleared and you are able to add more users once again.
@@ -64,7 +62,7 @@ $fullName = $firstName.Text + " " + $lastName.Text
 $emailAddr = $firstName.Text[0] + "." + $lastName.Text + "@magicTestDomain.test"
 $defaultPassword = $passwordTextBox.Text | ConvertTo-SecureString -AsPlainText -Force
 New-ADUser -Name $fullName -GivenName $firstName.Text -Surname $lastName.Text -EmailAddress $emailAddr -Title $selectTitle.Text -AccountPassword $defaultPassword
-{% end highlight %}
+{% endhighlight %}
 <p style="font-size:90%"> Figure 6: PowerShell Commands to Create New Users </p>
 
 {% highlight powershell %}
@@ -81,7 +79,7 @@ New-ADUser -Name $fullName -GivenName $firstName.Text -Surname $lastName.Text -E
             	} else {
 			$popupFailed = [System.Windows.MessageBox]::Show('User failed to be created','Failed','Ok','Error')
 	    	}
-{% end highlight %}
+{% endhighlight %}
 <p style="font-size:90%"> Figure 7: Command to Add User to Groups </p>
 
 Reference:
