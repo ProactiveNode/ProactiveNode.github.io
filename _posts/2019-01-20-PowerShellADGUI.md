@@ -57,3 +57,33 @@ $Screen.Controls.Add($passwordTextBox)
 $defaultPassword = $passwordTextBox.Text | ConvertTo-SecureString -AsPlainText -
 {% end highlight %}
 <p style="font-size:90%"> Figure 5: Default password MaskedTextBox </p>
+
+After all the fields have been populated, you will have to click the Create Users button to create them. It first goes through a few error checks to see if the fields have been populated. If they have been populated with data, then it will proceed to create the user. In Figure 6, three variables are being used to create the new user which is using the Powershell command New-ADUser. It will be up to the person who uses this tool to create the appropriate emails address. I am following the format of putting the first letter of the first name following a period and their last name E.g John Doe = J.Doe@ @magicTestDomain.test It will also be up to the user on what other fields they would want to add into the New-ADUser command such as their Phone Number, Manager, Address and more. In Figure 7, the $addAccountant and $addDev are used to put the user in the appropriate groups that were provided. Once they are added and everything was successful, the Textboxes are cleared and you are able to add more users once again.
+
+{% highlight powershell %}
+$fullName = $firstName.Text + " " + $lastName.Text
+$emailAddr = $firstName.Text[0] + "." + $lastName.Text + "@magicTestDomain.test"
+$defaultPassword = $passwordTextBox.Text | ConvertTo-SecureString -AsPlainText -Force
+New-ADUser -Name $fullName -GivenName $firstName.Text -Surname $lastName.Text -EmailAddress $emailAddr -Title $selectTitle.Text -AccountPassword $defaultPassword
+{% end highlight %}
+<p style="font-size:90%"> Figure 6: PowerShell Commands to Create New Users </p>
+
+{% highlight powershell %}
+		if ($?) {
+			if ($selectTitle.Text -eq 'Accountant') {
+                		$addAccountant = @("Account-Grp","Chicago-Office"); ForEach ($grp in $addAccountant) {Add-ADPrincipalGroupMembership $fullName -MemberOf $Grp }
+            		} elseif ($selectTitle.Text -eq 'Accountant') {
+                		$addDev = @("Developers-Grp","Chicago-Office"); ForEach ($grp in $addDev) {Add-ADPrincipalGroupMembership $fullName -MemberOf $Grp }
+            		}
+			$popupComplete = [System.Windows.MessageBox]::Show('User has been created','Completed')
+			$FirstName.Clear()
+			$LastName.Clear()
+			$selectTitle.SelectedIndex = -1
+            	} else {
+			$popupFailed = [System.Windows.MessageBox]::Show('User failed to be created','Failed','Ok','Error')
+	    	}
+{% end highlight %}
+<p style="font-size:90%"> Figure 7: Command to Add User to Groups </p>
+
+Reference:
+[1] https://docs.microsoft.com/en-us/powershell/module/addsadministration/new-aduser
