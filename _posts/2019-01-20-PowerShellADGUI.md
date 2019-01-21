@@ -8,6 +8,9 @@ To easily create new users with their default groups and permissions, I have des
 
 We have four fields that are required to create an account as shown in Figure 1. The First and Last name fields are self-explanatory. The Job Title field is where you will need to specify what role the new user has. You will need to set a default password that adheres to your organization’s password policy.
 
+![Figure 1](/assets/psGUI-Figure1.png.PNG)
+<p style="font-size:90%"> Figure 1: Required Fields to Create a User. </p>
+
 The First Name textbox and Last Name textbox use the same class from System.Windows.Forms as shown below in Figure 2. To place them in the correct area and length, I used System.Drawing.Point and System.Drawing.Size System.Drawing.Point and System.Drawing.Size use the following (horizontal, vertical) Point places where the textbox should be on the window. Size allocates how large the box should be. Once the values have been inputted, you will place the data onto the window by using $Screen.Controls.Add
 
 {% highlight powershell %}
@@ -66,19 +69,19 @@ New-ADUser -Name $fullName -GivenName $firstName.Text -Surname $lastName.Text -E
 <p style="font-size:90%"> Figure 6: PowerShell Commands to Create New Users </p>
 
 {% highlight powershell %}
-		if ($?) {
-			if ($selectTitle.Text -eq 'Accountant') {
-                		$addAccountant = @("Account-Grp","Chicago-Office"); ForEach ($grp in $addAccountant) {Add-ADPrincipalGroupMembership $fullName -MemberOf $Grp }
-            		} elseif ($selectTitle.Text -eq 'Accountant') {
-                		$addDev = @("Developers-Grp","Chicago-Office"); ForEach ($grp in $addDev) {Add-ADPrincipalGroupMembership $fullName -MemberOf $Grp }
-            		}
-			$popupComplete = [System.Windows.MessageBox]::Show('User has been created','Completed')
-			$FirstName.Clear()
-			$LastName.Clear()
-			$selectTitle.SelectedIndex = -1
-            	} else {
-			$popupFailed = [System.Windows.MessageBox]::Show('User failed to be created','Failed','Ok','Error')
-	    	}
+	if ($?) {
+		if ($selectTitle.Text -eq 'Accountant') {
+                	$addAccountant = @("Account-Grp","Chicago-Office"); ForEach ($grp in $addAccountant) {Add-ADPrincipalGroupMembership $fullName -MemberOf $Grp }
+            	} elseif ($selectTitle.Text -eq 'Accountant') {
+                	$addDev = @("Developers-Grp","Chicago-Office"); ForEach ($grp in $addDev) {Add-ADPrincipalGroupMembership $fullName -MemberOf $Grp }
+            	}
+		$popupComplete = [System.Windows.MessageBox]::Show('User has been created','Completed')
+		$FirstName.Clear()
+		$LastName.Clear()
+		$selectTitle.SelectedIndex = -1
+            } else {
+		$popupFailed = [System.Windows.MessageBox]::Show('User failed to be created','Failed','Ok','Error')
+	    }
 {% endhighlight %}
 <p style="font-size:90%"> Figure 7: Command to Add User to Groups </p>
 
